@@ -4,6 +4,8 @@ A svelte draggable draw/modal just like what you had seen in any of the mobile a
 
 ## Demo
 
+![example](/example.gif)
+
 [Svelte.dev Repl](https://svelte.dev/repl/a76f1b9d987c43f1ac457efb189d5d0d)
 
 TODO:
