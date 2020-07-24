@@ -1,35 +1,49 @@
-*Psst — looking for an app template? Go here --> [sveltejs/template](https://github.com/sveltejs/template)*
+# Svelte draggable draw/modal
 
----
+A svelte draggable draw/modal just like what you had seen in any of the mobile app!
 
-# component-template
+## Demo
 
-A base for building shareable Svelte components. Clone it with [degit](https://github.com/Rich-Harris/degit):
+[Svelte.dev Repl](https://svelte.dev/repl/a76f1b9d987c43f1ac457efb189d5d0d)
 
-```bash
-npx degit sveltejs/component-template my-new-component
-cd my-new-component
-npm install # or yarn
-```
+TODO:
 
-Your component's source code lives in `src/Component.svelte`.
-
-You can create a package that exports multiple components by adding them to the `src` directory and editing `src/index.js` to reexport them as named exports.
-
-TODO
-
-* [ ] some firm opinions about the best way to test components
-* [ ] update `degit` so that it automates some of the setup work
-
+- [ ] Allow adjustment for width
+- [ ] Allow adjustment for custom unit instead of viewport only
+- [ ] Allow adjustment for custom box shadow
+- [ ] Allow adjustment for custom padding
 
 ## Setting up
 
-* Run `npm init` (or `yarn init`)
-* Replace this README with your own
-
+```bash
+npm install svelte-draggable-draw
+```
 
 ## Consuming components
 
-Your package.json has a `"svelte"` field pointing to `src/index.js`, which allows Svelte apps to import the source code directly, if they are using a bundler plugin like [rollup-plugin-svelte](https://github.com/sveltejs/rollup-plugin-svelte) or [svelte-loader](https://github.com/sveltejs/svelte-loader) (where [`resolve.mainFields`](https://webpack.js.org/configuration/resolve/#resolve-mainfields) in your webpack config includes `"svelte"`). **This is recommended.**
+```html
 
-For everyone else, `npm run build` will bundle your component's source code into a plain JavaScript module (`dist/index.mjs`) and a UMD script (`dist/index.js`). This will happen automatically when you publish your component to npm, courtesy of the `prepublishOnly` hook in package.json.
+<script>
+    import DraggableDraw from 'svelte-draggable-draw';
+    let visible = true;
+    let maxVH = 90;
+    let minVH = 85;
+
+    function switchVisible(){
+        visible = !visible;
+    }
+</script>
+
+<button on:click={switchVisible}>Click me to open</button>
+<DraggableDraw bind:visible {maxVH} {minVH}>
+    <span slot="left" on:click={switchVisible}>Cancel</span>
+    <span slot="right" on:click={switchVisible}>Submit</span>
+
+    <div>
+        <h1>Content</h1>
+        <p>Can be injected here</p>
+    </div>
+</DraggableDraw>
+```
+
+Enjoy😎!
