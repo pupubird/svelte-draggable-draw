@@ -15,6 +15,7 @@
     value,
     per_viewportHeight = 0;
   let touchStartHandler, touchMoveHandler, touchPoint;
+  let vh;
 
   window.addEventListener("resize", () => {
     if (visible) {
@@ -47,7 +48,10 @@
     }
   });
   onMount(() => {
-    let vh = getComputedStyle(wrapper).height.split("px")[0] / 100;
+    visible = false;
+    if(typeof wrapper === 'Element')
+      vh = getComputedStyle(wrapper).height.split("px")[0] / 100;
+    if(typeof inner === 'Element')
     if (getComputedStyle(inner).height.split("px")[0] > vh * 85) {
       overflow = "scroll";
     } else {
@@ -58,15 +62,19 @@
     undraggeble =
       document.ontouchmove === undefined &&
       typeof window.orientation !== "undefined";
-    origBottom = getComputedStyle(inner).bottom;
-    setTimeout(() => {
-      maxWidth = getComputedStyle(inner).width;
+      if(typeof inner === 'Element')
+      origBottom = getComputedStyle(inner).bottom;
+      setTimeout(() => {
+      if(typeof inner === 'Element')
+        maxWidth = getComputedStyle(inner).width;
+        if(typeof linewrapper !== 'undefined')
       lineWrapper.style.width = maxWidth;
     }, 500);
   });
+
   function initialize() {
-    per_viewportHeight =
-      parseInt(getComputedStyle(inner).minHeight.split("px")[0]) / minVH;
+    if(typeof inner === 'Element')
+      per_viewportHeight = parseInt(getComputedStyle(inner).minHeight.split("px")[0]) / minVH;
     if (document.ontouchmove === null) {
       // touch move supported
       // passive event listener: checkout https://www.chromestatus.com/feature/5745543795965952
@@ -94,10 +102,12 @@
       return;
     } else if (undraggeble) {
       // touch move not supported and is mobile version
+      if(typeof line !== 'undefined'){
       line.addEventListener("click", () => {
         closeElement(1);
       });
     }
+  }
     // desktop version
     lineWrapper.addEventListener("dragstart", e => {
       e = e || window.event;
@@ -118,6 +128,7 @@
     }
     if (lastPageY <= touchLocation) {
       // user is dragging down the lineWrapper
+      //-- apparently the "if" is not necessary here
       let botton = getComputedStyle(inner).bottom;
       value = parseInt(botton.split("px")[0]);
       inner.style.bottom = value - Math.abs(touchLocation - lastPageY) + "px";
